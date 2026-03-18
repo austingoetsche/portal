@@ -765,8 +765,12 @@ function col(pct, invert=false){
   return `rgb(${r},${g},${b})`;
 }
 function renderTable(div){
-  const f = getFiltered(div);
-  const { key: sk, dir: sd } = sortState[div];
+let f = getFiltered(div);
+
+// force score sort ONLY on initial load
+if (!sortState[div].key || sortState[div].key === '_score') {
+  f = [...f].sort((a, b) => playerScore(b) - playerScore(a));
+}  const { key: sk, dir: sd } = sortState[div];
 
   document.getElementById(`${div}-count`).textContent = `${f.length} of ${db[div].length}`;
 
