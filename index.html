@@ -748,8 +748,11 @@ function getFiltered(div){
   if(n(av)&&n(bv)) return (parseFloat(av)-parseFloat(bv))*sortDir;
   return String(av||'').localeCompare(String(bv||''))*sortDir;
 });
-  return f;
+if (sortState[div].key === '_score') {
+  f.sort((a, b) => playerScore(b) - playerScore(a));
 }
+
+return f;}
 function col(pct, invert=false){
   if (invert) pct = 1 - pct;
 
