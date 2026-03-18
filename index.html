@@ -743,11 +743,15 @@ function getFiltered(div){
     if(role&&r._role!==role)return false;
     return true;
   });
+  if (sortKey === '_score') {
+  f.sort((a, b) => playerScore(b) - playerScore(a));
+} else {
   f.sort((a,b)=>{
-  const av=a[sortKey],bv=b[sortKey];
-  if(n(av)&&n(bv)) return (parseFloat(av)-parseFloat(bv))*sortDir;
-  return String(av||'').localeCompare(String(bv||''))*sortDir;
-});
+    const av=a[sortKey],bv=b[sortKey];
+    if(n(av)&&n(bv)) return (parseFloat(av)-parseFloat(bv))*sortDir;
+    return String(av||'').localeCompare(String(bv||''))*sortDir;
+  });
+}
 if (sortState[div].key === '_score') {
   f.sort((a, b) => playerScore(b) - playerScore(a));
 }
