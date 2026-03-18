@@ -761,10 +761,6 @@ function renderTable(div){
       const v=row[c.k];
      if (c.k === '_score') {
   const s = playerScore(row);
-
- if (c.k === '_score') {
-  const s = playerScore(row);
-
   let color = 'var(--text3)';
   if (s >= 75) color = 'var(--green)';
   else if (s >= 60) color = 'var(--accent)';
