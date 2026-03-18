@@ -575,7 +575,7 @@ const PLAYER_COLORS=['#f0b429','#4da6ff','#4fffb0','#c084fc'];
 
 const PCT_COLS=['eFG%','TS%','FG%','3P%','FT%','Usage%','OReb%','DReb%','Ast%','Stl%','Blk%','Tov%','FT Rate','2P%'];
 const NUM_COLS=['Points/Game','Reb/Game','Ast/Game','Stl/Game','Blk/Game','Tov/Game','Minutes/Game','Games Played','FGA/Game','FGA/40','Win Shares','WARP','PER','ORtg','DRtg','ORAPM','DRAPM','RAPM',...PCT_COLS];
-const SORT_COLS=['WARP','PER','ORtg','DRtg','RAPM','Points/Game','Reb/Game','Ast/Game','TS%','eFG%','Usage%','Win Shares','Stl/Game','Blk/Game','3P%','FT%','Games Played'];
+const SORT_COLS=['_score','WARP','PER','ORtg','DRtg','RAPM','Points/Game','Reb/Game','Ast/Game','TS%','eFG%','Usage%','Win Shares','Stl/Game','Blk/Game','3P%','FT%','Games Played'];
 const COLS=[{k:'_score',l:'Score'},{k:'Name',l:'Player'},{k:'Position',l:'Pos'},{k:'_role',l:'Role'},{k:'Class',l:'Class'},{k:'Years Left',l:'Yrs'},{k:'Transferring From',l:'From'},{k:'New School',l:'To'},{k:'Games Played',l:'GP'},{k:'Points/Game',l:'PPG'},{k:'Reb/Game',l:'RPG'},{k:'Ast/Game',l:'APG'},{k:'TS%',l:'TS%'},{k:'Usage%',l:'USG%'},{k:'ORtg',l:'ORtg',bar:true,lo:88,hi:140},{k:'DRtg',l:'DRtg',bar:true,lo:88,hi:130,inv:true},{k:'RAPM',l:'RAPM'},{k:'WARP',l:'WARP'},{k:'_conf',l:'Conf'}];
 
 const n=v=>v!==undefined&&v!==null&&v!==''&&v!=='N/A'&&v!=='#VALUE!'&&!isNaN(parseFloat(v));
@@ -743,11 +743,16 @@ function getFiltered(div){
     if(role&&r._role!==role)return false;
     return true;
   });
-  f.sort((a,b)=>{
-    const av=a[sortKey],bv=b[sortKey];
-    if(n(av)&&n(bv))return(parseFloat(av)-parseFloat(bv))*sortDir;
-    return String(av||'').localeCompare(String(bv||''))*sortDir;
-  });
+  f.sort((a, b) => {
+  let av = sortKey === '_score' ? playerScore(a) : a[sortKey];
+  let bv = sortKey === '_score' ? playerScore(b) : b[sortKey];
+
+  if (n(av) && n(bv)) {
+    return (parseFloat(av) - parseFloat(bv)) * sortDir;
+  }
+
+  return String(av || '').localeCompare(String(bv || '')) * sortDir;
+});
   return f;
 }
 
