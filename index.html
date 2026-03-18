@@ -57,7 +57,46 @@ async function loadData() {
   filtered = data;
 
   buildFilters();
+  let sortKey = null;
+let sortDir = 1;
+
+function sortBy(key) {
+  if (sortKey === key) {
+    sortDir *= -1;
+  } else {
+    sortKey = key;
+    sortDir = 1;
+  }
+
+  filtered.sort((a, b) => {
+    const av = a[key] || "";
+    const bv = b[key] || "";
+
+    if (!isNaN(av) && !isNaN(bv)) {
+      return (parseFloat(av) - parseFloat(bv)) * sortDir;
+    }
+
+    return av.toString().localeCompare(bv.toString()) * sortDir;
+  });
+
   renderTable();
+}
+
+function renderTable() {
+  const thead = document.getElementById("thead");
+  const tbody = document.getElementById("tbody");
+
+  if (!data.length) return;
+
+  const headers = Object.keys(data[0]);
+
+  thead.innerHTML = "<tr>" + headers.map(h => 
+    `<th onclick="sortBy('${h}')">${h}</th>`
+  ).join("") + "</tr>";
+
+  tbody.innerHTML = filtered.map(row => {
+    return "<tr>" + headers.map(h => `<td>${row[h] || ""}</td>`).join("") + "</tr>";
+  }).join("");
 }
 
 function buildFilters() {
