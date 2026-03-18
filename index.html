@@ -748,13 +748,6 @@ function getFiltered(div){
   if(n(av)&&n(bv)) return (parseFloat(av)-parseFloat(bv))*sortDir;
   return String(av||'').localeCompare(String(bv||''))*sortDir;
 });
-
-  if (n(av) && n(bv)) {
-    return (parseFloat(av) - parseFloat(bv)) * sortDir;
-  }
-
-  return String(av || '').localeCompare(String(bv || '')) * sortDir;
-};
   return f;
 }
 
