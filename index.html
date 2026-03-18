@@ -762,9 +762,12 @@ function renderTable(div){
      if (c.k === '_score') {
   const s = playerScore(row);
 
+ if (c.k === '_score') {
+  const s = playerScore(row);
+
   let color = 'var(--text3)';
-  if (s >= 90) color = 'var(--green)';
-  else if (s >= 70) color = 'var(--accent)';
+  if (s >= 75) color = 'var(--green)';
+  else if (s >= 60) color = 'var(--accent)';
   else color = 'var(--danger)';
 
   return `<td style="color:${color};font-weight:700">${s.toFixed(1)}</td>`;
