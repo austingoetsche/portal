@@ -752,36 +752,82 @@ function getFiltered(div){
 }
 
 function renderTable(div){
-  const f=getFiltered(div);const{key:sk,dir:sd}=sortState[div];
-  document.getElementById(`${div}-count`).textContent=`${f.length} of ${db[div].length}`;
-  const th=COLS.map(c=>`<th class="${sk===c.k?'sorted':''}" onclick="sortBy('${div}','${c.k}')">${c.l}${sk===c.k?(sd===-1?' ▼':' ▲'):''}</th>`).join('');
-  const tb=f.length?f.map(row=>{
-    const isCom=committed(row);
-    const cells=COLS.map(c=>{
-      const v=row[c.k];
-     if (c.k === '_score') {
-  const s = playerScore(row);
-  let color = 'var(--text3)';
-  if (s >= 75) color = 'var(--green)';
-  else if (s >= 60) color = 'var(--accent)';
-  else color = 'var(--danger)';
+  const f = getFiltered(div);
+  const { key: sk, dir: sd } = sortState[div];
 
-  return `<td style="color:${color};font-weight:700">${s.toFixed(1)}</td>`;
-}
-      if(c.k==='Name')return`<td><div class="pname">${v||'—'}</div><div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div></td>`;
-      if(c.k==='Position'){const p=String(v||'').trim();return`<td><span class="pos pos-${p}">${p||'—'}</span></td>`;}
-      if(c.k==='_role')return`<td><span class="role-tag role-${v}">${v}</span></td>`;
-      if(c.k==='New School')return`<td>${isCom?`<span class="commit-tag">${v}</span>`:`<span style="color:var(--text3)">—</span>`}</td>`;
-      if(c.k==='_conf')return`<td><span class="conf-badge">${v||'—'}</span></td>`;
-      if(c.bar&&n(v)){const pct=Math.min(1,Math.max(0,(parseFloat(v)-c.lo)/(c.hi-c.lo)));const cl=barCol(pct,c.inv);return`<td><div class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${Math.round(pct*100)}%;background:${cl}"></div></div><span style="color:${cl}">${Math.round(parseFloat(v))}</span></div></td>`;}
-      if(['RAPM','ORAPM','DRAPM'].includes(c.k))return`<td>${fS(v)}</td>`;
-      if(['WARP','Win Shares'].includes(c.k))return`<td>${f2(v)}</td>`;
-      if(NUM_COLS.includes(c.k))return`<td>${f1(v)}</td>`;
-      return`<td style="color:var(--text2)">${v||'—'}</td>`;
+  document.getElementById(`${div}-count`).textContent = `${f.length} of ${db[div].length}`;
+
+  const th = COLS.map(c =>
+    `<th class="${sk===c.k?'sorted':''}" onclick="sortBy('${div}','${c.k}')">
+      ${c.l}${sk===c.k?(sd===-1?' ▼':' ▲'):''}
+    </th>`
+  ).join('');
+
+  const tb = f.length ? f.map(row => {
+    const isCom = committed(row);
+
+    const cells = COLS.map(c => {
+      const v = row[c.k];
+
+      // ✅ SCORE COLUMN
+      if (c.k === '_score') {
+        const s = playerScore(row);
+
+        let color = 'var(--text3)';
+        if (s >= 75) color = 'var(--green)';
+        else if (s >= 60) color = 'var(--accent)';
+        else color = 'var(--danger)';
+
+        return `<td style="color:${color};font-weight:700">${s.toFixed(1)}</td>`;
+      }
+
+      // 👇 EVERYTHING BELOW WAS MISSING
+      if (c.k === 'Name') {
+        return `<td>
+          <div class="pname">${v||'—'}</div>
+          <div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div>
+        </td>`;
+      }
+
+      if (c.k === 'Position') {
+        const p = String(v||'').trim();
+        return `<td><span class="pos pos-${p}">${p||'—'}</span></td>`;
+      }
+
+      if (c.k === 'New School') {
+        return `<td>${
+          isCom
+            ? `<span class="commit-tag">${v}</span>`
+            : `<span style="color:var(--text3)">—</span>`
+        }</td>`;
+      }
+
+      if (c.bar && n(v)) {
+        const pct = Math.min(1, Math.max(0, (parseFloat(v)-c.lo)/(c.hi-c.lo)));
+        const cl = col(pct, c.inv);
+        return `<td>
+          <div class="bar-cell">
+            <div class="bar-track">
+              <div class="bar-fill" style="width:${Math.round(pct*100)}%;background:${cl}"></div>
+            </div>
+            <span style="color:${cl}">${Math.round(parseFloat(v))}</span>
+          </div>
+        </td>`;
+      }
+
+      if (['RAPM','ORAPM','DRAPM'].includes(c.k)) return `<td>${fS(v)}</td>`;
+      if (['WARP','Win Shares'].includes(c.k)) return `<td>${f2(v)}</td>`;
+      if (NUMS.includes(c.k)) return `<td>${f1(v)}</td>`;
+
+      return `<td style="color:var(--text2)">${v||'—'}</td>`;
     }).join('');
-    return`<tr class="${isCom?'is-committed':''}" onclick="openModal('${div}','${encodeURIComponent(row['Name'])}')">${cells}</tr>`;
-  }).join(''):`<tr><td colspan="${COLS.length}" class="empty">No players match filters</td></tr>`;
-  document.getElementById(`${div}-tbl`).innerHTML=`<table><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`;
+
+    return `<tr class="${isCom?'committed':''}" onclick="openModal('${div}','${encodeURIComponent(row['Name'])}')">${cells}</tr>`;
+  }).join('')
+  : `<tr><td colspan="${COLS.length}" class="empty">No players match filters</td></tr>`;
+
+  document.getElementById(`${div}-tbl`).innerHTML =
+    `<table><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`;
 }
 
 function sortBy(div,key){
