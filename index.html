@@ -740,7 +740,16 @@ function getFiltered(div){
     if(status==='available'&&committed(r))return false;
     return true;
   });
-  f.sort((a,b)=>{const av=a[sortKey],bv=b[sortKey];if(n(av)&&n(bv))return(parseFloat(av)-parseFloat(bv))*sortDir;return String(av||'').localeCompare(String(bv||''))*sortDir;});
+  f.sort((a, b) => {
+  let av = sortKey === '_score' ? playerScore(a) : a[sortKey];
+  let bv = sortKey === '_score' ? playerScore(b) : b[sortKey];
+
+  if (n(av) && n(bv)) {
+    return (parseFloat(av) - parseFloat(bv)) * sortDir;
+  }
+
+  return String(av || '').localeCompare(String(bv || '')) * sortDir;
+});;if(n(av)&&n(bv))return(parseFloat(av)-parseFloat(bv))*sortDir;return String(av||'').localeCompare(String(bv||''))*sortDir;});
   return f;
 }
 
