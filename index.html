@@ -817,7 +817,7 @@ function renderTable(div){
 
       if (['RAPM','ORAPM','DRAPM'].includes(c.k)) return `<td>${fS(v)}</td>`;
       if (['WARP','Win Shares'].includes(c.k)) return `<td>${f2(v)}</td>`;
-      if (NUMS.includes(c.k)) return `<td>${f1(v)}</td>`;
+      if (NUM_COLS.includes(c.k)) return `<td>${f1(v)}</td>`;
 
       return `<td style="color:var(--text2)">${v||'—'}</td>`;
     }).join('');
