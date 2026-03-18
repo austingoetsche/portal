@@ -896,13 +896,14 @@ function initNeedsSlots(){
     </div>`).join('');
 }
 function playerScore(r) {
-  return (
-    (parseFloat(r['WARP']) || 0) * 15 +
-    (parseFloat(r['PER']) || 0) * 1.5 +
-    (parseFloat(r['TS%']) || 0) * 0.8 +
+  const raw =
+    (parseFloat(r['WARP']) || 0) * 8 +      // ↓ reduced
+    (parseFloat(r['PER']) || 0) * 2 +       // ↑ more impact
+    (parseFloat(r['TS%']) || 0) * 0.8 +     
     (parseFloat(r['Points/Game']) || 0) * 1 +
-    (parseFloat(r['RAPM']) || 0) * 5
-  );
+    (parseFloat(r['RAPM']) || 0) * 6;       // ↑ impact stat
+
+  return raw / 2;
 }
 function runNeeds(){
   const positions=['PG','SG','SF','PF','C'];
