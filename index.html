@@ -654,8 +654,8 @@ const D2_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vR2i9QCMFfi0RJoIVc
 let db={d1:[],d2:[]},sortState={d1:{key:'WARP',dir:-1},d2:{key:'WARP',dir:-1}},fitDivs={d1:true,d2:true};
 const PCT=['eFG%','TS%','FG%','3P%','FT%','Usage%','OReb%','DReb%','Ast%','Stl%','Blk%','Tov%','FT Rate','2P%'];
 const NUMS=['Points/Game','Reb/Game','Ast/Game','Stl/Game','Blk/Game','Tov/Game','Minutes/Game','Games Played','FGA/Game','FGA/40','Win Shares','WARP','PER','ORtg','DRtg','ORAPM','DRAPM','RAPM',...PCT];
-const SORT_COLS=['WARP','PER','ORtg','DRtg','RAPM','Points/Game','Reb/Game','Ast/Game','TS%','eFG%','Usage%','Win Shares','Stl/Game','Blk/Game','3P%','FT%','Games Played'];
-const COLS=[{k:'Name',l:'Player'},{k:'Position',l:'Pos'},{k:'Class',l:'Class'},{k:'Years Left',l:'Yrs'},{k:'Transferring From',l:'From'},{k:'New School',l:'To'},{k:'Games Played',l:'GP'},{k:'Points/Game',l:'PPG'},{k:'Reb/Game',l:'RPG'},{k:'Ast/Game',l:'APG'},{k:'Tov/Game',l:'TOV'},{k:'eFG%',l:'eFG%'},{k:'TS%',l:'TS%'},{k:'Usage%',l:'USG%'},{k:'ORtg',l:'ORtg',bar:true,lo:88,hi:140},{k:'DRtg',l:'DRtg',bar:true,lo:88,hi:130,inv:true},{k:'RAPM',l:'RAPM'},{k:'WARP',l:'WARP'},{k:'PER',l:'PER'}];
+const SORT_COLS=['WARP','_score','PER','ORtg','DRtg','RAPM','Points/Game','Reb/Game','Ast/Game','TS%','eFG%','Usage%','Win Shares','Stl/Game','Blk/Game','3P%','FT%','Games Played'];
+const COLS=[{k:'Name',l:'Player'},{k:'Position',l:'Pos'},{k:'Class',l:'Class'},{k:'Years Left',l:'Yrs'},{k:'Transferring From',l:'From'},{k:'New School',l:'To'},{k:'Games Played',l:'GP'},{k:'Points/Game',l:'PPG'},{k:'Reb/Game',l:'RPG'},{k:'Ast/Game',l:'APG'},{k:'Tov/Game',l:'TOV'},{k:'eFG%',l:'eFG%'},{k:'TS%',l:'TS%'},{k:'Usage%',l:'USG%'},{k:'ORtg',l:'ORtg',bar:true,lo:88,hi:140},{k:'DRtg',l:'DRtg',bar:true,lo:88,hi:130,inv:true},{k:'RAPM',l:'RAPM'},{k:'WARP',l:'WARP'},{k:'PER',l:'PER'},{ k:'_score', l:'Score' }];
 
 const n=v=>v!==undefined&&v!==null&&v!==''&&v!=='N/A'&&v!=='#VALUE!'&&!isNaN(parseFloat(v));
 const f1=v=>n(v)?parseFloat(v).toFixed(1):'—';
@@ -758,6 +758,16 @@ function renderTable(div){
       if(c.bar&&n(v)){const pct=Math.min(1,Math.max(0,(parseFloat(v)-c.lo)/(c.hi-c.lo)));const cl=col(pct,c.inv);return`<td><div class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${Math.round(pct*100)}%;background:${cl}"></div></div><span style="color:${cl}">${Math.round(parseFloat(v))}</span></div></td>`;}
       if(['RAPM','ORAPM','DRAPM'].includes(c.k))return`<td>${fS(v)}</td>`;
       if(['WARP','Win Shares'].includes(c.k))return`<td>${f2(v)}</td>`;
+      if (c.k === '_score') {
+  const s = playerScore(row);
+
+  let color = 'var(--text3)';
+  if (s > 80) color = 'var(--green)';
+  else if (s > 50) color = 'var(--accent');
+  else color = 'var(--danger');
+
+  return `<td style="color:${color};font-weight:600">${s.toFixed(1)}</td>`;
+}
       if(NUMS.includes(c.k))return`<td>${f1(v)}</td>`;
       return`<td style="color:var(--text2)">${v||'—'}</td>`;
     }).join('');
