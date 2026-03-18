@@ -624,15 +624,7 @@ function getPlaystyleTags(r) {
   if (ortg >= 115 && usg <= 20) tags.push('High-Efficiency Role Player');
   return tags.slice(0,4);
 }
-function col(pct, invert=false){
-  if(invert) pct = 1 - pct;
 
-  const r = Math.round(255 * (1 - pct));
-  const g = Math.round(180 * pct);
-  const b = 80;
-
-  return `rgb(${r},${g},${b})`;
-}
 // Conference adjusted stats
 function confAdjusted(r, stat) {
   const raw = parseFloat(r[stat]);
@@ -758,7 +750,17 @@ function getFiltered(div){
 });
   return f;
 }
+function col(pct, invert=false){
+  if (invert) pct = 1 - pct;
 
+  pct = Math.max(0, Math.min(1, pct)); // clamp
+
+  const r = Math.round(255 * (1 - pct));
+  const g = Math.round(180 * pct);
+  const b = 80;
+
+  return `rgb(${r},${g},${b})`;
+}
 function renderTable(div){
   const f = getFiltered(div);
   const { key: sk, dir: sd } = sortState[div];
