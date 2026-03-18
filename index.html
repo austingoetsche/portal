@@ -759,9 +759,15 @@ function renderTable(div){
     const isCom=committed(row);
     const cells=COLS.map(c=>{
       const v=row[c.k];
-      if (c.k === '_score') {
+     if (c.k === '_score') {
   const s = playerScore(row);
-  return `<td style="font-weight:600">${s.toFixed(1)}</td>`;
+
+  let color = 'var(--text3)';
+  if (s >= 90) color = 'var(--green)';
+  else if (s >= 70) color = 'var(--accent)';
+  else color = 'var(--danger)';
+
+  return `<td style="color:${color};font-weight:700">${s.toFixed(1)}</td>`;
 }
       if(c.k==='Name')return`<td><div class="pname">${v||'—'}</div><div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div></td>`;
       if(c.k==='Position'){const p=String(v||'').trim();return`<td><span class="pos pos-${p}">${p||'—'}</span></td>`;}
