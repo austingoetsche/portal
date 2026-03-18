@@ -69,16 +69,23 @@ function sortBy(key) {
   }
 
   filtered.sort((a, b) => {
-    const av = a[key] || "";
-    const bv = b[key] || "";
+    let av = a[key];
+    let bv = b[key];
 
-    if (!isNaN(av) && !isNaN(bv)) {
-      return (parseFloat(av) - parseFloat(bv)) * sortDir;
+    // convert to numbers if possible
+    const aNum = parseFloat(av);
+    const bNum = parseFloat(bv);
+
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return (aNum - bNum) * sortDir;
     }
 
-    return av.toString().localeCompare(bv.toString()) * sortDir;
+    // fallback to string compare
+    return String(av || "").localeCompare(String(bv || "")) * sortDir;
   });
 
+  renderTable();
+}
   renderTable();
 }
 
