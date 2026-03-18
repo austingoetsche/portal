@@ -891,11 +891,11 @@ function initNeedsSlots(){
 }
 function playerScore(r) {
   return (
-    (parseFloat(r['WARP']) || 0) * 5 +
-    (parseFloat(r['PER']) || 0) * 0.5 +
-    (parseFloat(r['TS%']) || 0) * 0.2 +
-    (parseFloat(r['Points/Game']) || 0) * 0.3 +
-    (parseFloat(r['RAPM']) || 0) * 2
+    (parseFloat(r['WARP']) || 0) * 15 +
+    (parseFloat(r['PER']) || 0) * 1.5 +
+    (parseFloat(r['TS%']) || 0) * 0.8 +
+    (parseFloat(r['Points/Game']) || 0) * 1 +
+    (parseFloat(r['RAPM']) || 0) * 5
   );
 }
 function runNeeds(){
