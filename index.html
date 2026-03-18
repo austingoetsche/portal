@@ -786,7 +786,7 @@ if (!sortState[div].key || sortState[div].key === '_score') {
 
   const tb = f.length ? f.map(row => {
     const isCom = committed(row);
-
+  const isNew = isNewPlayer(row, div);
     const cells = COLS.map(c => {
       const v = row[c.k];
 
@@ -803,12 +803,15 @@ if (!sortState[div].key || sortState[div].key === '_score') {
       }
 
       // 👇 EVERYTHING BELOW WAS MISSING
-      if (c.k === 'Name') {
-        return `<td>
-          <div class="pname">${v||'—'}</div>
-          <div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div>
-        </td>`;
-      }
+     if (c.k === 'Name') {
+  return `<td>
+    <div class="pname">
+      ${v || '—'}
+      ${isNew ? '<span style="color:var(--accent);font-size:10px;margin-left:6px;">NEW</span>' : ''}
+    </div>
+    <div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div>
+  </td>`;
+}
 
       if (c.k === 'Position') {
         const p = String(v||'').trim();
@@ -970,6 +973,11 @@ function playerScore(r) {
     (parseFloat(r['RAPM']) || 0) * 6;       // ↑ impact stat
 
   return raw / 2;
+}
+  function isNewPlayer(row, div) {
+  const all = db[div];
+  const idx = all.indexOf(row);
+  return idx >= all.length - 15;
 }
 function runNeeds(){
   const positions=['PG','SG','SF','PF','C'];
