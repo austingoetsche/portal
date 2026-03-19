@@ -1001,6 +1001,14 @@ function playerScore(r, div='d1') {
   const idx = all.indexOf(row);
   return idx >= all.length - 15;
 }
+  function passesMinutes(r) {
+  const mpg = parseFloat(r['MPG']) || 0;
+  const gp = parseFloat(r['Games Played']) || 0;
+
+  const totalMinutes = mpg * gp;
+
+  return totalMinutes >= 300;
+}
 function runNeeds(){
   const positions=['PG','SG','SF','PF','C'];
   const weights={};
