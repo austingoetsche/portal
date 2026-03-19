@@ -969,7 +969,7 @@ function playerScore(r, div='d1') {
   if (div === 'd1') {
     // 🔥 D1: more impact + efficiency weighted
     const raw =
-  (parseFloat(r['WARP']) || 0) * 5 +
+  (parseFloat(r['WARP']) || 0) * 6 +
   (parseFloat(r['RAPM']) || 0) * 6 +
   (parseFloat(r['PER']) || 0) * 1.2 +
   Math.min((parseFloat(r['TS%']) || 0), 65) * 0.6 +
@@ -981,9 +981,9 @@ function playerScore(r, div='d1') {
 
   // 🟡 D2: keep simpler
   const raw =
-  (parseFloat(r['WARP']) || 0) * 5 +
-  (parseFloat(r['RAPM']) || 0) * 3 +   // 👈 added, lighter weight
-  (parseFloat(r['PER']) || 0) * 1.4 +
+  (parseFloat(r['WARP']) || 0) * 6 +
+  (parseFloat(r['RAPM']) || 0) * 4 +   // 👈 added, lighter weight
+  (parseFloat(r['PER']) || 0) * 1.5 +
   Math.min((parseFloat(r['TS%']) || 0), 65) * 0.7 +
   (parseFloat(r['Points/Game']) || 0) * 1.2;
   
