@@ -976,7 +976,7 @@ function playerScore(r, div='d1') {
       (parseFloat(r['Points/Game']) || 0) * 0.8;
 
     const base = raw
-    return base * eligibilityBoost(r) * minutesScale(r);
+    return base * eligibilityBoost(r) * minutesPenalty(r);
   }
 
   // 🟡 D2: keep simpler
