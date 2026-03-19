@@ -807,7 +807,7 @@ if (!sortState[div].key || sortState[div].key === '_score') {
   return `<td>
     <div class="pname">
       ${v || '—'}
-      ${isNew ? '<span style="color:var(--accent);font-size:10px;margin-left:6px;">NEW</span>' : ''}
+      ${isNew ? '<span style="background:var(--accent);color:white;font-size:9px;padding:2px 5px;border-radius:4px;margin-left:6px;">NEW</span>' : ''}
     </div>
     <div class="psub">${row['Height']||''} · ${row['Years Left']||''} yr</div>
   </td>`;
