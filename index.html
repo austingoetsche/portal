@@ -969,11 +969,11 @@ function playerScore(r, div='d1') {
   if (div === 'd1') {
     // 🔥 D1: more impact + efficiency weighted
     const raw =
-      (parseFloat(r['WARP']) || 0) * 6 +
-      (parseFloat(r['RAPM']) || 0) * 8 +
-      (parseFloat(r['PER']) || 0) * 1.8 +
-      (parseFloat(r['TS%']) || 0) * 1 +
-      (parseFloat(r['Points/Game']) || 0) * 0.8;
+  (parseFloat(r['WARP']) || 0) * 5 +
+  (parseFloat(r['RAPM']) || 0) * 6 +
+  (parseFloat(r['PER']) || 0) * 1.2 +
+  Math.min((parseFloat(r['TS%']) || 0), 65) * 0.6 +
+  (parseFloat(r['Points/Game']) || 0) * 1.2;
 
     const base = raw / 2
     return base * eligibilityBoost(r)
@@ -981,11 +981,12 @@ function playerScore(r, div='d1') {
 
   // 🟡 D2: keep simpler
   const raw =
-    (parseFloat(r['WARP']) || 0) * 8 +
-    (parseFloat(r['PER']) || 0) * 2 +
-    (parseFloat(r['TS%']) || 0) * 0.8 +
-    (parseFloat(r['Points/Game']) || 0) * 1;
-
+  (parseFloat(r['WARP']) || 0) * 5 +
+  (parseFloat(r['RAPM']) || 0) * 3 +   // 👈 added, lighter weight
+  (parseFloat(r['PER']) || 0) * 1.4 +
+  Math.min((parseFloat(r['TS%']) || 0), 65) * 0.7 +
+  (parseFloat(r['Points/Game']) || 0) * 1.2;
+  
   const base = raw / 2;
   return base * eligibilityBoost(r);
 }
