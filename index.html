@@ -741,7 +741,7 @@ function getFiltered(div){
     if(status==='committed'&&!committed(r))return false;
     if(status==='available'&&committed(r))return false;
     if(role&&r._role!==role)return false;
-    return passesMinutes(row);
+    return true;
   });
   if (sortKey === '_score') {
   f.sort((a, b) => playerScore(b) - playerScore(a));
