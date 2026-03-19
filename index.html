@@ -986,7 +986,7 @@ function playerScore(r, div='d1') {
     (parseFloat(r['TS%']) || 0) * 0.8 +
     (parseFloat(r['Points/Game']) || 0) * 1;
 
-  const base raw / 2;
+  const base = raw / 2;
   return base * eligibilityBoost(r);
 }
   function eligibilityBoost(r) {
