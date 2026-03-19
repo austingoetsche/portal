@@ -792,7 +792,7 @@ if (!sortState[div].key || sortState[div].key === '_score') {
 
       // ✅ SCORE COLUMN
       if (c.k === '_score') {
-        const s = playerScore(row);
+        const s = playerScore(row, div);
 
         let color = 'var(--text3)';
         if (s >= 75) color = 'var(--green)';
