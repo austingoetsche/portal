@@ -964,13 +964,26 @@ function initNeedsSlots(){
       </select>
     </div>`).join('');
 }
-function playerScore(r) {
+function playerScore(r, div='d1') {
+
+  if (div === 'd1') {
+    // 🔥 D1: more impact + efficiency weighted
+    const raw =
+      (parseFloat(r['WARP']) || 0) * 6 +
+      (parseFloat(r['RAPM']) || 0) * 8 +
+      (parseFloat(r['PER']) || 0) * 1.8 +
+      (parseFloat(r['TS%']) || 0) * 1 +
+      (parseFloat(r['Points/Game']) || 0) * 0.8;
+
+    return raw / 2;
+  }
+
+  // 🟡 D2: keep simpler
   const raw =
-    (parseFloat(r['WARP']) || 0) * 8 +      // ↓ reduced
-    (parseFloat(r['PER']) || 0) * 2 +       // ↑ more impact
-    (parseFloat(r['TS%']) || 0) * 0.8 +     
-    (parseFloat(r['Points/Game']) || 0) * 1 +
-    (parseFloat(r['RAPM']) || 0) * 6;       // ↑ impact stat
+    (parseFloat(r['WARP']) || 0) * 8 +
+    (parseFloat(r['PER']) || 0) * 2 +
+    (parseFloat(r['TS%']) || 0) * 0.8 +
+    (parseFloat(r['Points/Game']) || 0) * 1;
 
   return raw / 2;
 }
