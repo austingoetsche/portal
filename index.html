@@ -744,7 +744,8 @@ function getFiltered(div){
     return true;
   });
   if (sortKey === '_score') {
-  f.sort((a, b) => playerScore(b) - playerScore(a));
+  f.sort((a, b) => playerScore(b) - playerScore(a, div));
+    return f;
 } else {
   f.sort((a,b)=>{
     const av=a[sortKey],bv=b[sortKey];
