@@ -976,7 +976,7 @@ function playerScore(r, div='d1') {
       (parseFloat(r['Points/Game']) || 0) * 0.8;
 
     const base = raw / 2;
-    return base * eligibilityBoost(r)
+    return base * eligibilityBoost(r) * minutesScale(r);
   }
 
   // 🟡 D2: keep simpler
@@ -986,7 +986,8 @@ function playerScore(r, div='d1') {
     (parseFloat(r['TS%']) || 0) * 0.8 +
     (parseFloat(r['Points/Game']) || 0) * 1;
 
-  return raw / 2;
+  const base raw / 2;
+  return base * eligibilityBoost(r);
 }
   function eligibilityBoost(r) {
   const y = parseFloat(r['Years Left']) || 0;
